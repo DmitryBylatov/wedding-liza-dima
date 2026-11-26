@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2b211d">
+  <title>Приглашение на свадьбу — Елизавета & Дмитрий</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- БЛОК 1: Приглашение + таймер -->
+  <section class="hero" id="invitation">
+    <img class="hero__photo" src="images/block_1.jpg" alt="Елизавета и Дмитрий">
+    <div class="hero__overlay" aria-hidden="true"></div>
+
+    <div class="hero__inner">
+      <header class="hero__intro">
+        <p class="hero__eyebrow">Приглашение на свадьбу</p>
+        <h1 class="hero__names">
+          <span>Елизавета</span>
+          <span class="hero__amp">&</span>
+          <span>Дмитрий</span>
+        </h1>
+        <p class="hero__date">19 июля 2027</p>
+      </header>
+
+      <div class="hero__bottom">
+        <div class="countdown" aria-live="polite">
+          <p class="countdown__title">До встречи осталось</p>
+          <div class="countdown__grid">
+            <div class="countdown__unit">
+              <span class="countdown__value" data-unit="days">00</span>
+              <span class="countdown__label">дней</span>
+            </div>
+            <div class="countdown__unit">
+              <span class="countdown__value" data-unit="hours">00</span>
+              <span class="countdown__label">часов</span>
+            </div>
+            <div class="countdown__unit">
+              <span class="countdown__value" data-unit="minutes">00</span>
+              <span class="countdown__label">минут</span>
+            </div>
+            <div class="countdown__unit">
+              <span class="countdown__value" data-unit="seconds">00</span>
+              <span class="countdown__label">секунд</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Поведение кнопки определим позже, пока это заготовка -->
+        <button class="rsvp-button" type="button" id="rsvpButton">
+          Подтвердить присутствие
+        </button>
+
+        <a class="scroll-hint" href="#navigation" aria-label="Листайте ниже">
+          <span>листайте вниз</span>
+          <span class="scroll-hint__arrow" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- БЛОК 2: Навигация по сайту -->
+  <section class="navigation" id="navigation">
+    <img class="navigation__photo" src="images/block_2.jpg" alt="">
+    <div class="navigation__overlay" aria-hidden="true"></div>
+
+    <div class="navigation__inner">
+      <header class="section-heading">
+        <p class="section-heading__eyebrow">Приглашение</p>
+        <h2 class="section-heading__title">Навигация</h2>
+        <p class="section-heading__subtitle">Выберите, что посмотреть дальше</p>
+      </header>
+
+      <nav class="nav-grid" aria-label="Навигация по блокам">
+        <a class="nav-card" href="#invitation">
+          <span class="nav-card__number">01</span>
+          <span class="nav-card__title">Приглашение</span>
+        </a>
+        <a class="nav-card" href="#navigation">
+          <span class="nav-card__number">02</span>
+          <span class="nav-card__title">Навигация</span>
+        </a>
+        <a class="nav-card" href="#story">
+          <span class="nav-card__number">03</span>
+          <span class="nav-card__title">Для гостей</span>
+        </a>
+        <a class="nav-card" href="#schedule">
+          <span class="nav-card__number">04</span>
+          <span class="nav-card__title">Программа дня</span>
+        </a>
+        <a class="nav-card" href="#venue">
+          <span class="nav-card__number">05</span>
+          <span class="nav-card__title">Место проведения</span>
+        </a>
+        <a class="nav-card" href="#rsvp">
+          <span class="nav-card__number">06</span>
+          <span class="nav-card__title">Подтверждение</span>
+        </a>
+        <a class="nav-card" href="#gallery">
+          <span class="nav-card__number">07</span>
+          <span class="nav-card__title">Галерея</span>
+        </a>
+        <a class="nav-card" href="#dress-code">
+          <span class="nav-card__number">08</span>
+          <span class="nav-card__title">Дресс-код</span>
+        </a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- БЛОК 3: Обращение к гостям -->
+  <section class="story" id="story">
+    <img class="story__photo" src="images/block_3.jpg" alt="">
+    <div class="story__overlay" aria-hidden="true"></div>
+
+    <div class="story__inner">
+      <p class="story__eyebrow">Дорогие гости!</p>
+      <div class="story__text">
+        <p>Этот день станет для нас началом новой истории нашей семьи.</p>
+        <p>Будем счастливы разделить его с вами — с теми, с кем связаны наши самые тёплые воспоминания.</p>
+      </div>
+      <div class="story__divider" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- БЛОК 4: Программа дня -->
+  <section class="schedule" id="schedule">
+    <img class="schedule__photo" src="images/block_4.jpg" alt="">
+    <div class="schedule__overlay" aria-hidden="true"></div>
+
+    <div class="schedule__inner">
+      <header class="section-heading">
+        <p class="section-heading__eyebrow">19 июля 2027</p>
+        <h2 class="section-heading__title">Программа дня</h2>
+        <p class="section-heading__subtitle">Один день, который мы будем помнить долго</p>
+      </header>
+
+      <ol class="timeline">
+        <li class="timeline__item">
+          <div class="timeline__card">
+            <span class="timeline__time">16:00</span>
+            <h3 class="timeline__title">Церемония</h3>
+            <p class="timeline__place">Сад усадьбы у пруда</p>
+          </div>
+        </li>
+        <li class="timeline__item">
+          <div class="timeline__card">
+            <span class="timeline__time">17:30</span>
+            <h3 class="timeline__title">Фуршет</h3>
+            <p class="timeline__place">Терраса, лёгкие закуски</p>
+          </div>
+        </li>
+        <li class="timeline__item">
+          <div class="timeline__card">
+            <span class="timeline__time">19:00</span>
+            <h3 class="timeline__title">Банкет</h3>
+            <p class="timeline__place">Главный зал</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- БЛОК 5: Как добраться -->
+  <!-- ВАЖНО: замени data-lat / data-lon / data-name / data-address на реальные данные -->
+  <section class="venue" id="venue"
+           data-name="Название усадьбы"
+           data-address="Укажите точный адрес усадьбы"
+           data-lat="55.7558"
+           data-lon="37.6173">
+    <img class="venue__photo" src="images/block_5.jpg" alt="">
+    <div class="venue__overlay" aria-hidden="true"></div>
+
+    <div class="venue__inner">
+      <header class="section-heading">
+        <p class="section-heading__eyebrow">19 июля 2027</p>
+        <h2 class="section-heading__title">Как добраться</h2>
+        <p class="section-heading__subtitle">Ждём вас в усадьбе</p>
+      </header>
+
+      <div class="venue__card">
+        <div class="venue__info">
+          <h3 class="venue__name" data-venue-name>Название усадьбы</h3>
+          <p class="venue__address" data-venue-address>Укажите точный адрес усадьбы</p>
+          <a class="venue__route" id="routeLink" href="#" target="_blank" rel="noopener noreferrer">
+            Построить маршрут
+            <span class="venue__route-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="venue__map-wrap">
+          <iframe class="venue__map"
+                  id="venueMap"
+                  title="Карта проезда к месту проведения"
+                  allowfullscreen></iframe>
+          <a class="venue__taxi" id="taxiLink" href="https://taxi.yandex.ru/" target="_blank" rel="noopener noreferrer">
+            <span class="venue__taxi-icon" aria-hidden="true">●</span>
+            Заказать такси
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- БЛОК 6: Подтверждение присутствия -->
+  <section class="rsvp" id="rsvp">
+    <img class="rsvp__photo" src="images/block_6.jpg" alt="">
+    <div class="rsvp__overlay" aria-hidden="true"></div>
+
+    <div class="rsvp__inner">
+      <header class="section-heading">
+        <p class="section-heading__eyebrow">19 июля 2027</p>
+        <h2 class="section-heading__title">Подтверждение присутствия</h2>
+        <p class="section-heading__subtitle">Сообщите, будете ли вы с нами</p>
+      </header>
+
+      <form class="rsvp-form" id="rsvpForm">
+        <label class="field">
+          <span class="field__label">Как вас зовут?</span>
+          <input class="field__input" type="text" name="name" placeholder="Имя и фамилия" autocomplete="name" required>
+        </label>
+
+        <fieldset class="field field--choices">
+          <legend class="field__label">Вы будете на свадьбе?</legend>
+          <div class="choice-row">
+            <label class="choice">
+              <input type="radio" name="attending" value="Да, с радостью!" required>
+              <span>Да, с радостью!</span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="attending" value="К сожалению, не смогу">
+              <span>Не смогу</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <label class="field">
+          <span class="field__label">Аллергены <small>если есть</small></span>
+          <input class="field__input" type="text" name="allergens" placeholder="Например: орехи, морепродукты">
+        </label>
+
+        <label class="field">
+          <span class="field__label">Вкусовые предпочтения</span>
+          <textarea class="field__input field__textarea" name="preferences" rows="3" placeholder="Что вы любите или, наоборот, не едите?"></textarea>
+        </label>
+
+        <button class="rsvp-form__submit" type="submit" name="messenger" value="telegram" id="rsvpSubmit">
+          Написать в Telegram
+        </button>
+        <p class="rsvp-form__hint">Откроется чат с готовым текстом — останется только нажать «Отправить»</p>
+
+        <button class="rsvp-form__submit rsvp-form__submit--max" type="submit" name="messenger" value="max" id="rsvpSubmitMax">
+          Написать в Макс
+        </button>
+        <p class="rsvp-form__status" id="rsvpStatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- БЛОК 7: Галерея (три раздела на Яндекс Диске) -->
+  <!-- ЗАМЕНИТЕ data-* ссылки на реальные адреса папок Яндекс Диска. -->
+  <section class="gallery" id="gallery"
+           data-disk-wedding="https://disk.yandex.ru/"
+           data-disk-childhood="https://disk.yandex.ru/"
+           data-disk-upload="https://disk.yandex.ru/">
+    <img class="gallery__photo" src="images/block_7.jpg" alt="">
+    <div class="gallery__overlay" aria-hidden="true"></div>
+
+    <div class="gallery__inner">
+      <header class="section-heading">
+        <p class="section-heading__eyebrow">Наши истории</p>
+        <h2 class="section-heading__title">Фотографии</h2>
+        <p class="section-heading__subtitle">Выберите альбом на Яндекс Диске</p>
+      </header>
+
+      <div class="gallery__grid gallery__grid--albums">
+        <a class="gallery-card" href="https://disk.yandex.ru/" target="_blank" rel="noopener noreferrer" data-disk-link="wedding">
+          <img class="gallery-card__photo" src="images/block_8.jpg" alt="">
+          <span class="gallery-card__shade" aria-hidden="true"></span>
+          <span class="gallery-card__body">
+            <span class="gallery-card__number">01</span>
+            <span class="gallery-card__title">Свадебная фотосессия</span>
+            <span class="gallery-card__action">Открыть альбом <span aria-hidden="true">→</span></span>
+          </span>
+        </a>
+
+        <a class="gallery-card" href="https://disk.yandex.ru/" target="_blank" rel="noopener noreferrer" data-disk-link="childhood">
+          <img class="gallery-card__photo" src="images/block_9.jpg" alt="">
+          <span class="gallery-card__shade" aria-hidden="true"></span>
+          <span class="gallery-card__body">
+            <span class="gallery-card__number">02</span>
+            <span class="gallery-card__title">Детство</span>
+            <span class="gallery-card__action">Открыть альбом <span aria-hidden="true">→</span></span>
+          </span>
+        </a>
+      </div>
+
+      <div class="gallery__guest">
+        <header class="gallery__guest-head">
+          <p class="gallery__guest-eyebrow">Для гостей</p>
+          <h3 class="gallery__guest-title">Поделитесь своими фотографиями</h3>
+          <p class="gallery__guest-text">
+            Мы будем рады увидеть свадьбу вашими глазами — загружайте снимки в общее облако.
+          </p>
+        </header>
+
+        <a class="gallery-card gallery-card--upload" href="https://disk.yandex.ru/" target="_blank" rel="noopener noreferrer" data-disk-link="upload">
+          <img class="gallery-card__photo" src="images/block_10.jpg" alt="">
+          <span class="gallery-card__shade" aria-hidden="true"></span>
+          <span class="gallery-card__body">
+            <span class="gallery-card__number">03</span>
+            <span class="gallery-card__title">Загрузить свои фотографии</span>
+            <span class="gallery-card__action">Открыть папку <span aria-hidden="true">→</span></span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Сюда будем добавлять следующие блоки -->
+
+  <script src="script.js"></script>
+</body>
+</html>
