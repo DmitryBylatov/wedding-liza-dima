@@ -1905,6 +1905,30 @@ section > .scroll-hint {
 .rsvp-form__submit--max.fizzy { --fizz-ring: #c9a8ff; }
 .calendar-button.fizzy { --fizz-ring: var(--color-accent); }
 
+/* ========== Мягкий стык между фотографиями соседних блоков ==========
+   Полоса нулевой высоты перекрывает границу двух секций на 38 px вверх
+   и вниз и слегка размывает оба изображения. Маска плавно сводит размытие
+   к нулю, поэтому самой полосы видно не нужно. */
+.photo-seam {
+  position: relative;
+  height: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.photo-seam::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -38px;
+  height: 76px;
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+  backdrop-filter: blur(12px) saturate(110%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 28%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 28%, #000 72%, transparent 100%);
+}
+
 /* Уважение к настройке «меньше движения» */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
