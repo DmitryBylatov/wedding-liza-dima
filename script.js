@@ -40,22 +40,50 @@ rsvpButton.addEventListener('click', () => {
   document.getElementById('rsvp')?.scrollIntoView({ behavior: 'smooth' });
 });
 
-/* ========== Подсказка «листайте вниз» в каждом блоке ==========
-   Достаточно добавить новый <section id="..."> — ссылка появится сама,
-   за исключением последнего блока. Если в блоке уже есть .scroll-hint,
-   он остаётся как есть (так сделано в первом блоке). */
-const screens = document.querySelectorAll('section[id]');
+/* Liquid Glass: единый эффект для всех «окон» сайта */
+document.querySelectorAll(
+  '.countdown, .nav-card, .timeline__card, .venue__card, .rsvp-form, .gallery-card, .calendar-button, .faq-item'
+).forEach((element) => element.classList.add('liquid-glass'));
 
-screens.forEach((section, index) => {
-  const nextSection = screens[index + 1];
-  if (!nextSection || section.querySelector('.scroll-hint')) return;
+/* Подсказка «листайте вниз» есть только на первом экране —
+   в разметке она задана вручную и никуда больше не добавляется. */
 
-  const hint = document.createElement('a');
-  hint.className = 'scroll-hint';
-  hint.href = `#${nextSection.id}`;
-  hint.setAttribute('aria-label', 'Листайте ниже');
-  hint.innerHTML = '<span>листайте вниз</span><span class="scroll-hint__arrow" aria-hidden="true"></span>';
-  section.appendChild(hint);
+/* ========== Кнопка «Добавить в календарь» ========== */
+const calendarButton = document.getElementById('calendarButton');
+
+calendarButton?.addEventListener('click', () => {
+  const escape = (value) => String(value).replace(/([,;\\])/g, '\\$1').replace(/\n/g, '\\n');
+  const event = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Liza and Dima//Wedding//RU',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    'UID:wedding-liza-dima-20270719@example.com',
+    'DTSTAMP:20270101T000000Z',
+    'DTSTART:20270719T160000',
+    'DTEND:20270720T000000',
+    'SUMMARY:Свадьба Елизаветы и Дмитрия',
+    `DESCRIPTION:${escape('Сбор гостей в 16:00, церемония росписи в 17:30, банкет в 19:00.')}`,
+    `LOCATION:${escape(venue?.dataset.address || 'Усадьба')}`,
+    'BEGIN:VALARM',
+    'TRIGGER:-P1D',
+    'ACTION:DISPLAY',
+    'DESCRIPTION:Завтра свадьба Елизаветы и Дмитрия',
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n');
+
+  const url = URL.createObjectURL(new Blob([event], { type: 'text/calendar;charset=utf-8' }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'svadba-liza-dima.ics';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 
 /* ========== Навигация: карточки ждут свои блоки ==========
@@ -63,10 +91,31 @@ screens.forEach((section, index) => {
    Как только блок появится, она станет активной сама. */
 document.querySelectorAll('.nav-card[href^="#"]').forEach((card) => {
   const targetId = card.getAttribute('href').slice(1);
-  if (!document.getElementById(targetId)) {
+  const target = document.getElementById(targetId);
+
+  if (!target) {
     card.classList.add('is-coming');
     card.setAttribute('aria-disabled', 'true');
+    return;
   }
+
+  /* Нажатие с подсветкой в цвете того блока, куда ведёт карточка */
+  card.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--press-x', `${event.clientX - rect.left}px`);
+    card.style.setProperty('--press-y', `${event.clientY - rect.top}px`);
+    card.classList.remove('is-pressed');
+    void card.offsetWidth;
+    card.classList.add('is-pressed');
+
+    setTimeout(() => {
+      card.classList.remove('is-pressed');
+      target.scrollIntoView({ behavior: 'smooth' });
+      history.replaceState(null, '', `#${targetId}`);
+    }, 260);
+  });
 });
 
 /* ========== Блок 5 — карта и маршрут ==========
@@ -110,7 +159,7 @@ if (gallery) {
 /* ========== Блок 6 — форма → мессенджеры ==========
    Никаких ботов и токенов: гость сам отправляет готовое сообщение.
    Если вставить свои ссылки, текст откроется сразу в вашем чате. */
-const TELEGRAM_USERNAME = 'dmitru_fairy'; // без @ — открываем чат сразу с вами
+const TELEGRAM_USERNAME = 'dmitru_fairy'; // без @ — получатель анкеты
 
 // Номер, к которому привязан аккаунт MAX. Используется как fallback,
 // чтобы гость мог найти вас через поиск внутри приложения.
@@ -193,20 +242,42 @@ rsvpForm.addEventListener('submit', async (event) => {
   const messenger = event.submitter?.value || 'telegram';
 
   if (messenger === 'telegram') {
-    const url = TELEGRAM_USERNAME
-      ? `https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(message)}`
-      : `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(message)}`;
+    /* t.me/share/url гарантированно кладёт текст в поле ввода:
+       пользователю остаётся выбрать чат и нажать «Отправить».
+       Дополнительно копируем анкету — на случай, если Telegram не открылся. */
+    const copied = copyText(message);
+    const url = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(message)}`;
 
     openExternal(url);
-    setRsvpStatus('Открыли Telegram с готовым текстом — осталось нажать «Отправить».', 'success');
+    setRsvpStatus(
+      copied
+        ? 'Анкета уже в поле ввода и скопирована — выберите чат и нажмите «Отправить».'
+        : 'Открыли Telegram с готовым текстом — выберите чат и нажмите «Отправить».',
+      'success'
+    );
     return;
   }
 
-  // MAX: сначала кладём анкету в буфер (пока есть жест пользователя),
-  // затем открываем приложение/веб-версию. Браузер не может сам вставить
-  // текст в поле другого приложения — поэтому остаётся одно нажатие «Вставить».
+  // MAX: кладём анкету в буфер, затем пытаемся открыть именно приложение
+  // через системную схему max://. Если приложения нет — открываем сайт.
   const copied = copyText(message);
-  openExternal(MAX_PROFILE_URL || 'https://max.ru/');
+  const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
+  if (MAX_PROFILE_URL) {
+    openExternal(MAX_PROFILE_URL);
+  } else if (isMobile) {
+    try {
+      window.location.href = 'max://';
+    } catch (error) {
+      openExternal('max://');
+    }
+
+    setTimeout(() => {
+      if (document.visibilityState === 'visible') openExternal('https://max.ru/');
+    }, 900);
+  } else {
+    openExternal('https://max.ru/');
+  }
 
   const phoneHint = MAX_PROFILE_URL
     ? ''

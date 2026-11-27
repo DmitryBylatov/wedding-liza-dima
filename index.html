@@ -14,7 +14,7 @@
 
   <!-- БЛОК 1: Приглашение + таймер -->
   <section class="hero" id="invitation">
-    <img class="hero__photo" src="images/block_1.jpg" alt="Елизавета и Дмитрий">
+    <img class="hero__photo" draggable="false" src="images/block_1.jpg" alt="Елизавета и Дмитрий">
     <div class="hero__overlay" aria-hidden="true"></div>
 
     <div class="hero__inner">
@@ -51,10 +51,14 @@
           </div>
         </div>
 
-        <!-- Поведение кнопки определим позже, пока это заготовка -->
-        <button class="rsvp-button" type="button" id="rsvpButton">
-          Подтвердить присутствие
-        </button>
+        <div class="hero__actions">
+          <button class="rsvp-button" type="button" id="rsvpButton">
+            Подтвердить присутствие
+          </button>
+          <button class="calendar-button" type="button" id="calendarButton">
+            <span aria-hidden="true">▣</span> Добавить в календарь
+          </button>
+        </div>
 
         <a class="scroll-hint" href="#navigation" aria-label="Листайте ниже">
           <span>листайте вниз</span>
@@ -66,7 +70,7 @@
 
   <!-- БЛОК 2: Навигация по сайту -->
   <section class="navigation" id="navigation">
-    <img class="navigation__photo" src="images/block_2.jpg" alt="">
+    <img class="navigation__photo" draggable="false" src="images/block_2.jpg" alt="">
     <div class="navigation__overlay" aria-hidden="true"></div>
 
     <div class="navigation__inner">
@@ -77,37 +81,45 @@
       </header>
 
       <nav class="nav-grid" aria-label="Навигация по блокам">
-        <a class="nav-card" href="#invitation">
+        <a class="nav-card" href="#invitation" data-theme="invitation">
+          <span class="nav-card__icon" aria-hidden="true">💌</span>
           <span class="nav-card__number">01</span>
           <span class="nav-card__title">Приглашение</span>
         </a>
-        <a class="nav-card" href="#navigation">
+        <a class="nav-card" href="#navigation" data-theme="navigation">
+          <span class="nav-card__icon" aria-hidden="true">🧭</span>
           <span class="nav-card__number">02</span>
           <span class="nav-card__title">Навигация</span>
         </a>
-        <a class="nav-card" href="#story">
+        <a class="nav-card" href="#story" data-theme="story">
+          <span class="nav-card__icon" aria-hidden="true">💐</span>
           <span class="nav-card__number">03</span>
           <span class="nav-card__title">Для гостей</span>
         </a>
-        <a class="nav-card" href="#schedule">
+        <a class="nav-card" href="#schedule" data-theme="schedule">
+          <span class="nav-card__icon" aria-hidden="true">🕰️</span>
           <span class="nav-card__number">04</span>
           <span class="nav-card__title">Программа дня</span>
         </a>
-        <a class="nav-card" href="#venue">
+        <a class="nav-card" href="#venue" data-theme="venue">
+          <span class="nav-card__icon" aria-hidden="true">📍</span>
           <span class="nav-card__number">05</span>
           <span class="nav-card__title">Место проведения</span>
         </a>
-        <a class="nav-card" href="#rsvp">
+        <a class="nav-card" href="#rsvp" data-theme="rsvp">
+          <span class="nav-card__icon" aria-hidden="true">✉️</span>
           <span class="nav-card__number">06</span>
           <span class="nav-card__title">Подтверждение</span>
         </a>
-        <a class="nav-card" href="#gallery">
+        <a class="nav-card" href="#gallery" data-theme="gallery">
+          <span class="nav-card__icon" aria-hidden="true">📷</span>
           <span class="nav-card__number">07</span>
           <span class="nav-card__title">Галерея</span>
         </a>
-        <a class="nav-card" href="#dress-code">
+        <a class="nav-card" href="#faq" data-theme="faq">
+          <span class="nav-card__icon" aria-hidden="true">❓</span>
           <span class="nav-card__number">08</span>
-          <span class="nav-card__title">Дресс-код</span>
+          <span class="nav-card__title">Вопросы и ответы</span>
         </a>
       </nav>
     </div>
@@ -115,7 +127,7 @@
 
   <!-- БЛОК 3: Обращение к гостям -->
   <section class="story" id="story">
-    <img class="story__photo" src="images/block_3.jpg" alt="">
+    <img class="story__photo" draggable="false" src="images/block_3.jpg" alt="">
     <div class="story__overlay" aria-hidden="true"></div>
 
     <div class="story__inner">
@@ -130,7 +142,7 @@
 
   <!-- БЛОК 4: Программа дня -->
   <section class="schedule" id="schedule">
-    <img class="schedule__photo" src="images/block_4.jpg" alt="">
+    <img class="schedule__photo" draggable="false" src="images/block_4.jpg" alt="">
     <div class="schedule__overlay" aria-hidden="true"></div>
 
     <div class="schedule__inner">
@@ -144,15 +156,15 @@
         <li class="timeline__item">
           <div class="timeline__card">
             <span class="timeline__time">16:00</span>
-            <h3 class="timeline__title">Церемония</h3>
-            <p class="timeline__place">Сад усадьбы у пруда</p>
+            <h3 class="timeline__title">Сбор гостей</h3>
+            <p class="timeline__place">Welcome-зона, напитки и закуски</p>
           </div>
         </li>
         <li class="timeline__item">
           <div class="timeline__card">
             <span class="timeline__time">17:30</span>
-            <h3 class="timeline__title">Фуршет</h3>
-            <p class="timeline__place">Терраса, лёгкие закуски</p>
+            <h3 class="timeline__title">Церемония росписи</h3>
+            <p class="timeline__place">С последующей фотосессией</p>
           </div>
         </li>
         <li class="timeline__item">
@@ -173,7 +185,7 @@
            data-address="Укажите точный адрес усадьбы"
            data-lat="55.7558"
            data-lon="37.6173">
-    <img class="venue__photo" src="images/block_5.jpg" alt="">
+    <img class="venue__photo" draggable="false" src="images/block_5.jpg" alt="">
     <div class="venue__overlay" aria-hidden="true"></div>
 
     <div class="venue__inner">
@@ -210,7 +222,7 @@
 
   <!-- БЛОК 6: Подтверждение присутствия -->
   <section class="rsvp" id="rsvp">
-    <img class="rsvp__photo" src="images/block_6.jpg" alt="">
+    <img class="rsvp__photo" draggable="false" src="images/block_6.jpg" alt="">
     <div class="rsvp__overlay" aria-hidden="true"></div>
 
     <div class="rsvp__inner">
@@ -250,14 +262,15 @@
           <textarea class="field__input field__textarea" name="preferences" rows="3" placeholder="Что вы любите или, наоборот, не едите?"></textarea>
         </label>
 
-        <button class="rsvp-form__submit" type="submit" name="messenger" value="telegram" id="rsvpSubmit">
-          Написать в Telegram
-        </button>
+        <div class="rsvp-form__actions">
+          <button class="rsvp-form__submit" type="submit" name="messenger" value="telegram" id="rsvpSubmit">
+            Написать в Telegram
+          </button>
+          <button class="rsvp-form__submit rsvp-form__submit--max" type="submit" name="messenger" value="max" id="rsvpSubmitMax">
+            Написать в Макс
+          </button>
+        </div>
         <p class="rsvp-form__hint">Откроется чат с готовым текстом — останется только нажать «Отправить»</p>
-
-        <button class="rsvp-form__submit rsvp-form__submit--max" type="submit" name="messenger" value="max" id="rsvpSubmitMax">
-          Написать в Макс
-        </button>
         <p class="rsvp-form__status" id="rsvpStatus" role="status" aria-live="polite"></p>
       </form>
     </div>
@@ -269,7 +282,7 @@
            data-disk-wedding="https://disk.yandex.ru/"
            data-disk-childhood="https://disk.yandex.ru/"
            data-disk-upload="https://disk.yandex.ru/">
-    <img class="gallery__photo" src="images/block_7.jpg" alt="">
+    <img class="gallery__photo" draggable="false" src="images/block_7.jpg" alt="">
     <div class="gallery__overlay" aria-hidden="true"></div>
 
     <div class="gallery__inner">
@@ -281,7 +294,7 @@
 
       <div class="gallery__grid gallery__grid--albums">
         <a class="gallery-card" href="https://disk.yandex.ru/" target="_blank" rel="noopener noreferrer" data-disk-link="wedding">
-          <img class="gallery-card__photo" src="images/block_8.jpg" alt="">
+          <img class="gallery-card__photo" draggable="false" src="images/block_8.jpg" alt="">
           <span class="gallery-card__shade" aria-hidden="true"></span>
           <span class="gallery-card__body">
             <span class="gallery-card__number">01</span>
@@ -291,7 +304,7 @@
         </a>
 
         <a class="gallery-card" href="https://disk.yandex.ru/" target="_blank" rel="noopener noreferrer" data-disk-link="childhood">
-          <img class="gallery-card__photo" src="images/block_9.jpg" alt="">
+          <img class="gallery-card__photo" draggable="false" src="images/block_9.jpg" alt="">
           <span class="gallery-card__shade" aria-hidden="true"></span>
           <span class="gallery-card__body">
             <span class="gallery-card__number">02</span>
@@ -311,7 +324,7 @@
         </header>
 
         <a class="gallery-card gallery-card--upload" href="https://disk.yandex.ru/" target="_blank" rel="noopener noreferrer" data-disk-link="upload">
-          <img class="gallery-card__photo" src="images/block_10.jpg" alt="">
+          <img class="gallery-card__photo" draggable="false" src="images/block_10.jpg" alt="">
           <span class="gallery-card__shade" aria-hidden="true"></span>
           <span class="gallery-card__body">
             <span class="gallery-card__number">03</span>
@@ -323,7 +336,71 @@
     </div>
   </section>
 
-  <!-- Сюда будем добавлять следующие блоки -->
+  <!-- БЛОК 8: Ответы на вопросы -->
+  <section class="faq" id="faq">
+    <img class="faq__photo" draggable="false" src="images/block_8.jpg" alt="">
+    <div class="faq__overlay" aria-hidden="true"></div>
+
+    <div class="faq__inner">
+      <header class="section-heading">
+        <p class="section-heading__eyebrow">Всё важное</p>
+        <h2 class="section-heading__title">Вопросы и ответы</h2>
+        <p class="section-heading__subtitle">Собрали то, что чаще всего спрашивают гости</p>
+      </header>
+
+      <div class="faq__list">
+        <details class="faq-item" name="faq">
+          <summary>Во сколько начинается праздник?<span aria-hidden="true"></span></summary>
+          <p>Сбор гостей — в 16:00, церемония росписи — в 17:30, банкет — в 19:00. Программа дня передвигается по шагам, так что ориентируйтесь на неё.</p>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>Где пройдёт свадьба?<span aria-hidden="true"></span></summary>
+          <p>В усадьбе. Точный адрес, карта и кнопка «Построить маршрут» — в блоке «Как добраться».</p>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>Нужно ли подтверждать присутствие?<span aria-hidden="true"></span></summary>
+          <p>Да, очень просим. Заполните короткую анкету в блоке «Подтверждение» и отправьте её в Telegram или Макс — так мы заранее узнаем, сколько гостей ждать.</p>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>Можно ли прийти с детьми?<span aria-hidden="true"></span></summary>
+          <p>Конечно, мы рады детям. Просто уточните в анкете, сколько маленьких гостей будет с вами.</p>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>Есть ли дресс-код?<span aria-hidden="true"></span></summary>
+          <p>Праздничный, нарядный образ. Часть вечера пройдёт на открытом воздухе, поэтому пригодятся удобная обувь и лёгкая накидка на вечер.</p>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>Что взять с собой?<span aria-hidden="true"></span></summary>
+          <p>Только хорошее настроение и желание разделить с нами этот день. Подарок не обязателен — ваше присутствие уже большая радость.</p>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>Будет ли фотосессия?<span aria-hidden="true"></span></summary>
+          <p>Да, сразу после церемонии. А ещё мы будем рады вашим снимкам — загружайте их в общую папку, ссылка есть в блоке «Фотографии».</p>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>Как добраться и где оставить машину?<span aria-hidden="true"></span></summary>
+          <p>В блоке «Как добраться» есть маршрут в Яндекс Картах и кнопка вызова такси. Место парковки уточним дополнительно перед праздником.</p>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>Учтут ли аллергии и вкусовые предпочтения?<span aria-hidden="true"></span></summary>
+          <p>Обязательно. Напишите об этом в анкете — в полях «Аллергены» и «Вкусовые предпочтения» — и мы учтём всё при подготовке угощения.</p>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>Где потом посмотреть фотографии?<span aria-hidden="true"></span></summary>
+          <p>В блоке «Фотографии» собраны три раздела на Яндекс Диске: свадебная фотосессия, детство и папка, куда можно загрузить свои снимки.</p>
+        </details>
+      </div>
+    </div>
+  </section>
 
   <script src="script.js"></script>
 </body>

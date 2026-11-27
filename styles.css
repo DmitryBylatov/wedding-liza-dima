@@ -32,6 +32,22 @@ img {
   max-width: 100%;
 }
 
+/* Фоновые фотографии нельзя выделить, перетащить или сохранить долгим нажатием */
+.hero__photo,
+.navigation__photo,
+.story__photo,
+.schedule__photo,
+.venue__photo,
+.rsvp__photo,
+.gallery__photo,
+.gallery-card__photo,
+.faq__photo {
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 /* ========== Блок 1 — открытка ========== */
 .hero {
   position: relative;
@@ -195,6 +211,47 @@ img {
 }
 
 .rsvp-button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.calendar-button {
+  display: block;
+  width: 100%;
+  padding: 12px 18px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.calendar-button span {
+  margin-right: 6px;
+  color: var(--color-accent);
+}
+
+.calendar-button:hover {
+  background: rgba(255, 255, 255, 0.24);
+  transform: translateY(-2px);
+}
+
+.calendar-button:active {
+  transform: translateY(0);
+}
+
+.calendar-button:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
@@ -556,7 +613,66 @@ section > .scroll-hint {
   line-height: 1.15;
 }
 
-/* Блоки 05–08 появятся позже — до этого карточки неактивны */
+/* --- Индивидуальная стилизация карточек под их блоки --- */
+.nav-card__icon {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-size: 19px;
+  line-height: 1;
+  filter: saturate(0.85);
+}
+
+.nav-card[data-theme="invitation"] { --nav-accent: #dfbfa2; --nav-tint: rgba(223, 191, 162, 0.24); --nav-glow: rgba(223, 191, 162, 0.7); }
+.nav-card[data-theme="navigation"] { --nav-accent: #a9c6d9; --nav-tint: rgba(169, 198, 217, 0.24); --nav-glow: rgba(169, 198, 217, 0.7); }
+.nav-card[data-theme="story"]      { --nav-accent: #e2a6b5; --nav-tint: rgba(226, 166, 181, 0.24); --nav-glow: rgba(226, 166, 181, 0.7); }
+.nav-card[data-theme="schedule"]   { --nav-accent: #c9b487; --nav-tint: rgba(201, 180, 135, 0.24); --nav-glow: rgba(201, 180, 135, 0.7); }
+.nav-card[data-theme="venue"]      { --nav-accent: #9ac6b3; --nav-tint: rgba(154, 198, 179, 0.24); --nav-glow: rgba(154, 198, 179, 0.7); }
+.nav-card[data-theme="rsvp"]       { --nav-accent: #b9a8dd; --nav-tint: rgba(185, 168, 221, 0.24); --nav-glow: rgba(185, 168, 221, 0.7); }
+.nav-card[data-theme="gallery"]    { --nav-accent: #e0b58b; --nav-tint: rgba(224, 181, 139, 0.24); --nav-glow: rgba(224, 181, 139, 0.7); }
+.nav-card[data-theme="faq"]        { --nav-accent: #c2c9a8; --nav-tint: rgba(194, 201, 168, 0.24); --nav-glow: rgba(194, 201, 168, 0.7); }
+
+.nav-card {
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--nav-tint, rgba(255, 255, 255, 0.16)), rgba(255, 255, 255, 0.05) 70%);
+  border-color: color-mix(in srgb, var(--nav-accent, var(--color-accent)) 45%, transparent);
+}
+
+.nav-card__number {
+  color: var(--nav-accent, var(--color-accent));
+}
+
+.nav-card::before {
+  content: "";
+  position: absolute;
+  top: var(--press-y, 50%);
+  left: var(--press-x, 50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--nav-glow, rgba(255, 255, 255, 0.6)) 0%, transparent 72%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav-card.is-pressed {
+  transform: scale(0.96);
+  background: linear-gradient(135deg, var(--nav-tint, rgba(255, 255, 255, 0.16)), rgba(255, 255, 255, 0.12));
+  box-shadow: 0 0 26px var(--nav-glow, rgba(255, 255, 255, 0.4));
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.nav-card.is-pressed::before {
+  animation: nav-ripple 0.55s ease-out forwards;
+}
+
+@keyframes nav-ripple {
+  0%   { transform: translate(-50%, -50%) scale(0); opacity: 0.95; }
+  100% { transform: translate(-50%, -50%) scale(26); opacity: 0; }
+}
+
+/* Блоки без своего раздела пока неактивны */
 .nav-card.is-coming {
   opacity: 0.48;
   pointer-events: none;
@@ -895,8 +1011,22 @@ section > .scroll-hint {
   cursor: wait;
 }
 
+.rsvp-form__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.rsvp-form__actions .rsvp-form__submit {
+  margin-top: 0;
+  padding: 14px 8px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
 .rsvp-form__hint {
-  margin: -8px 0 0;
+  margin: -6px 0 0;
   font-size: 11px;
   line-height: 1.4;
   text-align: center;
@@ -972,7 +1102,7 @@ section > .scroll-hint {
 .gallery-card {
   position: relative;
   display: block;
-  min-height: 128px;
+  min-height: 190px;
   overflow: hidden;
   border: 1px solid var(--glass-border);
   border-radius: 20px;
@@ -1021,9 +1151,9 @@ section > .scroll-hint {
   flex-direction: column;
   justify-content: flex-end;
   gap: 5px;
-  min-height: 128px;
-  padding: 14px 16px;
-  gap: 3px;
+  min-height: 190px;
+  padding: 18px 18px;
+  gap: 4px;
 }
 
 .gallery-card__number {
@@ -1091,11 +1221,11 @@ section > .scroll-hint {
 
 .gallery-card--upload,
 .gallery-card--upload .gallery-card__body {
-  min-height: 126px;
+  min-height: 188px;
 }
 
 .gallery-card--upload .gallery-card__title {
-  font-size: 20px;
+  font-size: 21px;
 }
 
 /* Ещё плотнее на маленьких телефонах */
@@ -1115,7 +1245,7 @@ section > .scroll-hint {
 
   .gallery-card,
   .gallery-card__body {
-    min-height: 104px;
+    min-height: 150px;
   }
 
   .gallery__guest {
@@ -1138,7 +1268,7 @@ section > .scroll-hint {
 
   .gallery-card--upload,
   .gallery-card--upload .gallery-card__body {
-    min-height: 102px;
+    min-height: 148px;
   }
 }
 
@@ -1417,7 +1547,7 @@ section > .scroll-hint {
 
   .gallery-card,
   .gallery-card__body {
-    min-height: 320px;
+    min-height: 420px;
   }
 
   .gallery-card__body {
@@ -1448,7 +1578,7 @@ section > .scroll-hint {
 
   .gallery-card--upload,
   .gallery-card--upload .gallery-card__body {
-    min-height: 280px;
+    min-height: 380px;
   }
 
   .gallery-card--upload .gallery-card__title {
@@ -1512,9 +1642,164 @@ section > .scroll-hint {
   }
 }
 
+/* ========== Блок 8 — вопросы и ответы ========== */
+.faq {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.faq__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: -2;
+}
+
+.faq__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(24, 16, 14, 0.78) 0%, rgba(24, 16, 14, 0.7) 50%, rgba(24, 16, 14, 0.86) 100%);
+}
+
+.faq__inner {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 16px max(64px, env(safe-area-inset-bottom));
+}
+
+.faq .section-heading {
+  margin-bottom: 20px;
+}
+
+.faq .section-heading__title {
+  font-size: clamp(1.9rem, 8vw, 2.4rem);
+}
+
+.faq__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faq-item {
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.faq-item summary {
+  position: relative;
+  list-style: none;
+  padding: 13px 42px 13px 16px;
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.25;
+  cursor: pointer;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--color-accent);
+}
+
+.faq-item[open] summary::after {
+  content: "–";
+}
+
+.faq-item p {
+  margin: 0;
+  padding: 0 16px 15px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: rgba(255, 249, 244, 0.85);
+}
+
+@media (min-width: 768px) {
+  .faq__inner {
+    max-width: 1040px;
+    padding: 100px 40px 110px;
+  }
+
+  .faq .section-heading {
+    margin-bottom: 40px;
+  }
+
+  .faq__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .faq-item summary {
+    padding: 18px 48px 18px 22px;
+    font-size: 19px;
+  }
+
+  .faq-item p {
+    padding: 0 22px 20px;
+    font-size: 14px;
+  }
+}
+
+/* ========== Liquid Glass — единый эффект для всех «окон» ==========
+   Мягкое преломление, блики по краям и глубокое стекло без картинок. */
+.liquid-glass {
+  background:
+    radial-gradient(130% 90% at 0% 0%, rgba(255, 255, 255, 0.32) 0%, transparent 46%),
+    radial-gradient(110% 80% at 100% 100%, rgba(255, 255, 255, 0.16) 0%, transparent 55%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05) 55%, rgba(255, 255, 255, 0.12));
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow:
+    0 18px 46px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.52),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.14),
+    inset 1px 0 0 rgba(255, 255, 255, 0.16);
+}
+
+.countdown.liquid-glass .countdown__unit {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.gallery-card.liquid-glass {
+  border-color: rgba(255, 255, 255, 0.42);
+}
+
+.faq-item.liquid-glass {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-item.liquid-glass[open] {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
 /* Уважение к настройке «меньше движения» */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .scroll-hint__arrow { animation: none; }
   .rsvp-button { transition: none; }
+  .nav-card.is-pressed::before { animation: none; }
 }
