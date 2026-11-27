@@ -56,21 +56,21 @@ calendarButton?.addEventListener('click', () => {
   const event = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Liza and Dima//Wedding//RU',
+    'PRODID:-//Dima and Liza//Wedding//RU',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
-    'UID:wedding-liza-dima-20270719@example.com',
+    'UID:wedding-dima-liza-20270719@example.com',
     'DTSTAMP:20270101T000000Z',
     'DTSTART:20270719T160000',
     'DTEND:20270720T000000',
-    'SUMMARY:Свадьба Елизаветы и Дмитрия',
+    'SUMMARY:Свадьба Дмитрия и Елизаветы',
     `DESCRIPTION:${escape('Сбор гостей в 16:00, церемония росписи в 17:30, банкет в 19:00.')}`,
     `LOCATION:${escape(venue?.dataset.address || 'Усадьба')}`,
     'BEGIN:VALARM',
     'TRIGGER:-P1D',
     'ACTION:DISPLAY',
-    'DESCRIPTION:Завтра свадьба Елизаветы и Дмитрия',
+    'DESCRIPTION:Завтра свадьба Дмитрия и Елизаветы',
     'END:VALARM',
     'END:VEVENT',
     'END:VCALENDAR',
@@ -79,7 +79,7 @@ calendarButton?.addEventListener('click', () => {
   const url = URL.createObjectURL(new Blob([event], { type: 'text/calendar;charset=utf-8' }));
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'svadba-liza-dima.ics';
+  link.download = 'svadba-dima-liza.ics';
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -115,6 +115,50 @@ document.querySelectorAll('.nav-card[href^="#"]').forEach((card) => {
       target.scrollIntoView({ behavior: 'smooth' });
       history.replaceState(null, '', `#${targetId}`);
     }, 260);
+  });
+});
+
+/* ========== «Шипучая» кнопка (эффект #9 из подборки CSS-кнопок) ==========
+   По нажатию из кнопки разлетаются частицы — как пузырьки в оригинальном
+   Fizzy Button. Работает и мышью, и касанием, и с клавиатуры. */
+const FIZZ_COLORS = ['#fff9f4', '#d9b89c', '#f2c9a0', '#9ad5ff', '#c9a8dd', '#8f5bff', '#2aabee'];
+
+document.querySelectorAll('button.fizzy').forEach((button) => {
+  button.addEventListener('click', () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    button.querySelector('.fizz')?.remove();
+
+    const layer = document.createElement('span');
+    layer.className = 'fizz';
+    layer.setAttribute('aria-hidden', 'true');
+
+    for (let i = 0; i < 40; i += 1) {
+      const spot = document.createElement('span');
+      const angle = (i / 40) * Math.PI * 2 + (Math.random() - 0.5) * 0.6;
+      const distance = 34 + Math.random() * 70;
+
+      spot.className = 'fizz__spot';
+      spot.style.setProperty('--fz-left', `${8 + Math.random() * 84}%`);
+      spot.style.setProperty('--fz-top', `${15 + Math.random() * 70}%`);
+      spot.style.setProperty('--fz-x', `${Math.cos(angle) * distance}px`);
+      spot.style.setProperty('--fz-y', `${Math.sin(angle) * distance}px`);
+      spot.style.setProperty('--fz-size', `${3 + Math.random() * 4}px`);
+      spot.style.setProperty('--fz-delay', `${Math.random() * 0.18}s`);
+      spot.style.setProperty('--fz-scale', `${0.6 + Math.random() * 0.9}`);
+      spot.style.setProperty('--fz-color', FIZZ_COLORS[i % FIZZ_COLORS.length]);
+      layer.appendChild(spot);
+    }
+
+    button.appendChild(layer);
+    button.classList.remove('is-fizzing');
+    void button.offsetWidth;
+    button.classList.add('is-fizzing');
+
+    setTimeout(() => {
+      layer.remove();
+      button.classList.remove('is-fizzing');
+    }, 1400);
   });
 });
 
@@ -220,6 +264,7 @@ rsvpForm.addEventListener('submit', async (event) => {
   const data = new FormData(rsvpForm);
   const name = (data.get('name') || '').trim();
   const attending = data.get('attending') || '';
+  const companions = data.get('companions') || '';
   const allergens = (data.get('allergens') || '').trim();
   const preferences = (data.get('preferences') || '').trim();
 
@@ -229,10 +274,11 @@ rsvpForm.addEventListener('submit', async (event) => {
   }
 
   const message = [
-    '💌 Ответ на приглашение — Елизавета & Дмитрий',
+    '💌 Ответ на приглашение — Дмитрий & Елизавета',
     '',
     `Имя: ${name}`,
     `Присутствие: ${attending}`,
+    `С кем: ${companions || 'не указано'}`,
     `Аллергены: ${allergens || 'не указаны'}`,
     `Вкусовые предпочтения: ${preferences || 'не указаны'}`,
     '',
