@@ -562,8 +562,10 @@ section > .scroll-hint {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0;
   min-height: 112px;
   padding: 16px;
   border: 1px solid var(--glass-border);
@@ -600,28 +602,14 @@ section > .scroll-hint {
   outline-offset: 3px;
 }
 
-.nav-card__number {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  letter-spacing: 0.08em;
-  color: var(--color-accent);
-}
-
 .nav-card__title {
   font-family: var(--font-serif);
   font-size: 1.15rem;
   line-height: 1.15;
+  max-width: 100%;
 }
 
 /* --- Индивидуальная стилизация карточек под их блоки --- */
-.nav-card__icon {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  font-size: 19px;
-  line-height: 1;
-  filter: saturate(0.85);
-}
 
 .nav-card[data-theme="invitation"] { --nav-accent: #dfbfa2; --nav-tint: rgba(223, 191, 162, 0.24); --nav-glow: rgba(223, 191, 162, 0.7); }
 .nav-card[data-theme="navigation"] { --nav-accent: #a9c6d9; --nav-tint: rgba(169, 198, 217, 0.24); --nav-glow: rgba(169, 198, 217, 0.7); }
@@ -638,8 +626,9 @@ section > .scroll-hint {
   border-color: color-mix(in srgb, var(--nav-accent, var(--color-accent)) 45%, transparent);
 }
 
-.nav-card__number {
-  color: var(--nav-accent, var(--color-accent));
+/* Частицы «шипучей» карточки должны вылетать за её пределы */
+.nav-card.fizzy {
+  overflow: visible;
 }
 
 .nav-card::before {
@@ -1469,10 +1458,6 @@ section > .scroll-hint {
     border-radius: 22px;
   }
 
-  .nav-card__number {
-    font-size: 1.2rem;
-  }
-
   .nav-card__title {
     font-size: 1.6rem;
   }
@@ -1858,7 +1843,8 @@ section > .scroll-hint {
   overflow: visible;
 }
 
-.fizzy::after {
+/* У карточек навигации ::after занят декоративной стрелкой */
+.fizzy:not(.nav-card)::after {
   content: "";
   position: absolute;
   inset: -3px;
@@ -1872,7 +1858,7 @@ section > .scroll-hint {
   animation: fizz-push 0.38s ease-out;
 }
 
-.fizzy.is-fizzing::after {
+.fizzy.is-fizzing:not(.nav-card)::after {
   animation: fizz-ring 0.6s ease-out;
 }
 

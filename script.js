@@ -110,11 +110,15 @@ document.querySelectorAll('.nav-card[href^="#"]').forEach((card) => {
     void card.offsetWidth;
     card.classList.add('is-pressed');
 
+    /* Ждём, пока гость досмотрит «шипение» целиком, и только потом ведём
+       его в нужный блок. При reduced-motion анимации нет — ждать нечего. */
+    const wait = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1400;
+
     setTimeout(() => {
       card.classList.remove('is-pressed');
       target.scrollIntoView({ behavior: 'smooth' });
       history.replaceState(null, '', `#${targetId}`);
-    }, 260);
+    }, wait);
   });
 });
 
@@ -123,11 +127,19 @@ document.querySelectorAll('.nav-card[href^="#"]').forEach((card) => {
    Fizzy Button. Работает и мышью, и касанием, и с клавиатуры. */
 const FIZZ_COLORS = ['#fff9f4', '#d9b89c', '#f2c9a0', '#9ad5ff', '#c9a8dd', '#8f5bff', '#2aabee'];
 
-document.querySelectorAll('button.fizzy').forEach((button) => {
-  button.addEventListener('click', () => {
+document.querySelectorAll('.fizzy').forEach((element) => {
+  element.addEventListener('click', () => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    button.querySelector('.fizz')?.remove();
+    element.querySelector('.fizz')?.remove();
+
+    /* У карточек навигации частицы окрашиваем в цвет их блока */
+    const navAccent = element.classList.contains('nav-card')
+      ? getComputedStyle(element).getPropertyValue('--nav-accent').trim()
+      : '';
+    const colors = navAccent
+      ? [navAccent, '#fff9f4', navAccent, '#ffffff']
+      : FIZZ_COLORS;
 
     const layer = document.createElement('span');
     layer.className = 'fizz';
@@ -146,18 +158,18 @@ document.querySelectorAll('button.fizzy').forEach((button) => {
       spot.style.setProperty('--fz-size', `${3 + Math.random() * 4}px`);
       spot.style.setProperty('--fz-delay', `${Math.random() * 0.18}s`);
       spot.style.setProperty('--fz-scale', `${0.6 + Math.random() * 0.9}`);
-      spot.style.setProperty('--fz-color', FIZZ_COLORS[i % FIZZ_COLORS.length]);
+      spot.style.setProperty('--fz-color', colors[i % colors.length]);
       layer.appendChild(spot);
     }
 
-    button.appendChild(layer);
-    button.classList.remove('is-fizzing');
-    void button.offsetWidth;
-    button.classList.add('is-fizzing');
+    element.appendChild(layer);
+    element.classList.remove('is-fizzing');
+    void element.offsetWidth;
+    element.classList.add('is-fizzing');
 
     setTimeout(() => {
       layer.remove();
-      button.classList.remove('is-fizzing');
+      element.classList.remove('is-fizzing');
     }, 1400);
   });
 });
@@ -288,17 +300,19 @@ rsvpForm.addEventListener('submit', async (event) => {
   const messenger = event.submitter?.value || 'telegram';
 
   if (messenger === 'telegram') {
-    /* t.me/share/url гарантированно кладёт текст в поле ввода:
-       пользователю остаётся выбрать чат и нажать «Отправить».
-       Дополнительно копируем анкету — на случай, если Telegram не открылся. */
+    /* Прямая ссылка на личный чат: t.me/<логин>?text=...
+       Открывается сразу диалог с вами, а анкета уже лежит в поле ввода.
+       На всякий случай текст ещё и копируется в буфер. */
     const copied = copyText(message);
-    const url = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(message)}`;
+    const url = TELEGRAM_USERNAME
+      ? `https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(message)}`
+      : `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(message)}`;
 
     openExternal(url);
     setRsvpStatus(
       copied
-        ? 'Анкета уже в поле ввода и скопирована — выберите чат и нажмите «Отправить».'
-        : 'Открыли Telegram с готовым текстом — выберите чат и нажмите «Отправить».',
+        ? 'Открыли личный чат: анкета уже в поле ввода и скопирована — осталось нажать «Отправить».'
+        : 'Открыли личный чат с готовым текстом — нажмите «Отправить».',
       'success'
     );
     return;
