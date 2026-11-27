@@ -112,7 +112,7 @@ document.querySelectorAll('.nav-card[href^="#"]').forEach((card) => {
 
     /* Ждём, пока гость досмотрит «шипение» целиком, и только потом ведём
        его в нужный блок. При reduced-motion анимации нет — ждать нечего. */
-    const wait = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1400;
+    const wait = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 700;
 
     setTimeout(() => {
       card.classList.remove('is-pressed');
@@ -151,11 +151,12 @@ document.querySelectorAll('.fizzy').forEach((element) => {
       const distance = 34 + Math.random() * 70;
 
       spot.className = 'fizz__spot';
+      spot.textContent = '♥';
       spot.style.setProperty('--fz-left', `${8 + Math.random() * 84}%`);
       spot.style.setProperty('--fz-top', `${15 + Math.random() * 70}%`);
       spot.style.setProperty('--fz-x', `${Math.cos(angle) * distance}px`);
       spot.style.setProperty('--fz-y', `${Math.sin(angle) * distance}px`);
-      spot.style.setProperty('--fz-size', `${3 + Math.random() * 4}px`);
+      spot.style.setProperty('--fz-size', `${10 + Math.random() * 6}px`);
       spot.style.setProperty('--fz-delay', `${Math.random() * 0.18}s`);
       spot.style.setProperty('--fz-scale', `${0.6 + Math.random() * 0.9}`);
       spot.style.setProperty('--fz-color', colors[i % colors.length]);
